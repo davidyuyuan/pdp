@@ -17,7 +17,7 @@ echo ""
 echo "** Updating ${dataset_name}.pathogen_analysis table. **"
 
 # https://www.ebi.ac.uk/ena/portal/api/search?fields=all&result=analysis&limit=10&fields=all
-curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&dataPortal=pathogen&fields=all&format=tsv&limit=10' \
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&fields=all&format=tsv&limit=10' \
   "https://www.ebi.ac.uk/ena/portal/api/search" > "${output_dir}/all_fields.tsv"
 curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&dataPortal=pathogen&fields=analysis_accession%2Cstudy_accession%2Csubmitted_bytes%2Canalysis_type%2Csample_accession%2Crun_ref%2Cscientific_name%2Clast_updated%2Canalysis_date%2Csubmitted_ftp%2Csubmitted_aspera%2Csubmitted_galaxy&format=tsv&limit=0' \
   "https://www.ebi.ac.uk/ena/portal/api/search" > "${output_dir}/pathogen_analysis.tsv"
