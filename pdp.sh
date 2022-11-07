@@ -29,9 +29,12 @@ echo ""
 echo "** Updating ${dataset_name}.pathogen_analysis table. **"
 curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&dataPortal=pathogen&fields=all&format=tsv&limit=10' \
   "https://www.ebi.ac.uk/ena/portal/api/search" > "${output_dir}/pathogen_all_fields.tsv"
-curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&dataPortal=pathogen&fields=analysis_accession%2Cstudy_accession%2Csubmitted_bytes%2Canalysis_type%2Csample_accession%2Crun_ref%2Cscientific_name%2Clast_updated%2Canalysis_date%2Csubmitted_format%2Csubmitted_md5&format=tsv&limit=0' \
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'result=analysis&dataPortal=pathogen&fields=analysis_accession%2Cstudy_accession%2Csubmitted_bytes%2Canalysis_type%2Csample_accession%2Crun_ref%2Cscientific_name%2Clast_updated%2Csubmitted_format%2Csubmitted_md5&format=tsv&limit=0' \
   "https://www.ebi.ac.uk/ena/portal/api/search" > "${output_dir}/pathogen_analysis.tsv"
+
+#Invalid field(s) supplied: analysis_date
+# %2Canalysis_date   ,analysis_date:DATE
 gsutil -m cp "${output_dir}/pathogen_analysis.tsv" "gs://${dataset_name}/pathogen_analysis.tsv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter=tab \
   --autodetect --max_bad_records=0 "${dataset_name}.pathogen_analysis" "gs://${dataset_name}/pathogen_analysis.tsv" \
-  "analysis_accession:STRING,study_accession:STRING,submitted_bytes:STRING,analysis_type:STRING,sample_accession:STRING,run_ref:STRING,scientific_name:STRING,last_updated:DATE,analysis_date:DATE,submitted_format:STRING,submitted_md5:STRING"
+  "analysis_accession:STRING,study_accession:STRING,submitted_bytes:STRING,analysis_type:STRING,sample_accession:STRING,run_ref:STRING,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING"
