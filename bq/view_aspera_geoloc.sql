@@ -1,4 +1,5 @@
-SELECT
+CREATE VIEW prj-int-dev-transfer-logs.ebi_transfer_logs.view_aspera_geoloc
+AS SELECT
   * EXCEPT(network_bin,
     mask),
 FROM (
