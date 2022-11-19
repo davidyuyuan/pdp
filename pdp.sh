@@ -22,7 +22,7 @@ cp "${analysis_dump}" "${output_dir}/analysis_dump.csv.gz" && \
   gunzip -k "${output_dir}/analysis_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/analysis_dump.csv" "gs://${dataset_name}/analysis_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter=',' \
-  --autodetect --max_bad_records=0 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.csv"
+  --autodetect --max_bad_records=10 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.csv"
 
 # run_dump
 echo "Creating run_dump..."
@@ -30,4 +30,4 @@ cp "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
   gunzip -k "${output_dir}/run_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/run_dump.csv" "gs://${dataset_name}/run_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter=',' \
-  --autodetect --max_bad_records=0 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.csv"
+  --autodetect --max_bad_records=10 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.csv"
