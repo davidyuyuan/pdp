@@ -18,7 +18,7 @@ output_dir="${DIR}/results"; mkdir -p "${output_dir}"
 
 # run_dump
 echo "Creating run_dump..."
-cp "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
+cp -f "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
   gunzip -kf "${output_dir}/run_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/run_dump.csv" "gs://${dataset_name}/run_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter=',' \
@@ -26,7 +26,7 @@ cp "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
 
 # analysis_dump
 echo "Creating analysis_dump..."
-cp "${analysis_dump}" "${output_dir}/analysis_dump.csv.gz" && \
+cp -f "${analysis_dump}" "${output_dir}/analysis_dump.csv.gz" && \
   gunzip -kf "${output_dir}/analysis_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/analysis_dump.csv" "gs://${dataset_name}/analysis_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter=',' \
