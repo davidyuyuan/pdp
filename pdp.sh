@@ -22,7 +22,7 @@ cp -f "${run_dump}" "${output_dir}/run_dump.tsv.gz" && \
   gunzip -kf "${output_dir}/run_dump.tsv.gz" && \
   gsutil -m cp "${output_dir}/run_dump.tsv" "gs://${dataset_name}/run_dump.tsv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
-  --autodetect --max_bad_records=1000 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.tsv"
+  --autodetect --max_bad_records=2000 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.tsv"
 
 # analysis_dump
 echo "Creating analysis_dump..."
