@@ -18,16 +18,16 @@ output_dir="${DIR}/results"; mkdir -p "${output_dir}"
 
 # run_dump
 echo "Creating run_dump..."
-cp -f "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
-  gunzip -kf "${output_dir}/run_dump.csv.gz" && \
-  gsutil -m cp "${output_dir}/run_dump.csv" "gs://${dataset_name}/run_dump.csv" && \
+cp -f "${run_dump}" "${output_dir}/run_dump.tsv.gz" && \
+  gunzip -kf "${output_dir}/run_dump.tsv.gz" && \
+  gsutil -m cp "${output_dir}/run_dump.tsv" "gs://${dataset_name}/run_dump.tsv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
-  --autodetect --max_bad_records=100 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.csv"
+  --autodetect --max_bad_records=100 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.tsv"
 
 # analysis_dump
 echo "Creating analysis_dump..."
-cp -f "${analysis_dump}" "${output_dir}/analysis_dump.csv.gz" && \
-  gunzip -kf "${output_dir}/analysis_dump.csv.gz" && \
-  gsutil -m cp "${output_dir}/analysis_dump.csv" "gs://${dataset_name}/analysis_dump.csv" && \
+cp -f "${analysis_dump}" "${output_dir}/analysis_dump.tsv.gz" && \
+  gunzip -kf "${output_dir}/analysis_dump.tsv.gz" && \
+  gsutil -m cp "${output_dir}/analysis_dump.tsv" "gs://${dataset_name}/analysis_dump.tsv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
-  --autodetect --max_bad_records=10 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.csv"
+  --autodetect --max_bad_records=10 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.tsv"
