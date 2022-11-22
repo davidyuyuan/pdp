@@ -22,12 +22,16 @@ cp -f "${run_dump}" "${output_dir}/run_dump.tsv.gz" && \
   gunzip -kf "${output_dir}/run_dump.tsv.gz" && \
   gsutil -m cp "${output_dir}/run_dump.tsv" "gs://${dataset_name}/run_dump.tsv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
-  --autodetect --max_bad_records=20000 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.tsv"
+  --autodetect --max_bad_records=10 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.tsv" \
+  "run_accession:STRING,study_accession:STRING,submitted_bytes:INTEGER,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,run_first_created:DATE,fire_oid:STRING"
 
 # analysis_dump
-#echo "Creating analysis_dump..."
-#cp -f "${analysis_dump}" "${output_dir}/analysis_dump.tsv.gz" && \
-#  gunzip -kf "${output_dir}/analysis_dump.tsv.gz" && \
-#  gsutil -m cp "${output_dir}/analysis_dump.tsv" "gs://${dataset_name}/analysis_dump.tsv" && \
-#  bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
-#  --autodetect --max_bad_records=100 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.tsv"
+echo "Creating analysis_dump..."
+cp -f "${analysis_dump}" "${output_dir}/analysis_dump.tsv.gz" && \
+  gunzip -kf "${output_dir}/analysis_dump.tsv.gz" && \
+  gsutil -m cp "${output_dir}/analysis_dump.tsv" "gs://${dataset_name}/analysis_dump.tsv" && \
+  bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=1 --field_delimiter='\t' \
+  --autodetect --max_bad_records=10 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.tsv" \
+  "analysis_accession:STRING,study_accession:STRING,submitted_bytes:INTEGER,analysis_type:STRING,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,analysis_sub_type:STRING,analysis_first_created:DATE,fire_oid:STRING"
+
+# Unique?
