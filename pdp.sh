@@ -23,7 +23,7 @@ cp -f "${run_dump}" "${output_dir}/run_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/run_dump.csv" "gs://${dataset_name}/run_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=2 --field_delimiter=',' \
   --autodetect --max_bad_records=10 "${dataset_name}.run_dump" "gs://${dataset_name}/run_dump.csv" \
-  "run_accession:STRING,study_accession:STRING,submitted_bytes:INTEGER,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,run_first_created:DATE,fire_oid:STRING"
+  "run_accession:STRING,study_accession:STRING,submitted_bytes:NUMERIC,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,run_first_created:DATE,fire_oid:STRING"
 
 # analysis_dump
 echo "Creating analysis_dump..."
@@ -32,6 +32,6 @@ cp -f "${analysis_dump}" "${output_dir}/analysis_dump.csv.gz" && \
   gsutil -m cp "${output_dir}/analysis_dump.csv" "gs://${dataset_name}/analysis_dump.csv" && \
   bq --project_id="${project_id}" load --source_format=CSV --replace=true --skip_leading_rows=2 --field_delimiter=',' \
   --autodetect --max_bad_records=10 "${dataset_name}.analysis_dump" "gs://${dataset_name}/analysis_dump.csv" \
-  "analysis_accession:STRING,study_accession:STRING,submitted_bytes:INTEGER,analysis_type:STRING,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,analysis_sub_type:STRING,analysis_first_created:DATE,fire_oid:STRING"
+  "analysis_accession:STRING,study_accession:STRING,submitted_bytes:NUMERIC,analysis_type:STRING,scientific_name:STRING,last_updated:DATE,submitted_format:STRING,submitted_md5:STRING,submitted_path:STRING,data_file_role:STRING,submission_account_id:STRING,tax_id:STRING,analysis_sub_type:STRING,analysis_first_created:DATE,fire_oid:STRING"
 
 # Unique?
