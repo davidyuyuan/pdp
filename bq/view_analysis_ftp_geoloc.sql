@@ -1,22 +1,14 @@
-CREATE VIEW `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_analysis_ftp_geoloc`
-AS SELECT
-    * EXCEPT(network_bin,
-    mask),
-FROM (
-         SELECT
-             *,
-             NET.SAFE_IP_FROM_STRING(ip) & NET.IP_NET_MASK(4,
-                                                           mask) AS network_bin
-         FROM
-             `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_analysis_ftp` AS T1,
-             UNNEST(GENERATE_ARRAY(9,32)) AS mask
-         WHERE
-             ip IS NOT NULL
-           AND BYTE_LENGTH(NET.SAFE_IP_FROM_STRING(ip)) = 4 )
-         JOIN
-     `prj-int-dev-transfer-logs.geoip.201806_geolite2_city_ipv4_locs` AS T2
-     USING
-         (network_bin,
-          mask)
+CREATE OR REPLACE VIEW
+    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_analysis_ftp_geoloc` AS
+SELECT
+    *
+FROM
+    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_ftp_geoloc` T1,
+    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.analysis_dump_unique` T2
 WHERE
-    city_name IS NOT null
+    (T2.analysis_type = 'PATHOGEN_ANALYSIS'
+        OR T2.analysis_type = 'COVID19_CONSENSUS'
+        OR T2.analysis_type = 'COVID19_FILTERED_VCF')
+  AND T1.time > '2022-07-31'
+  AND CONTAINS_SUBSTR(T1.filename, '/vol1')
+  AND ENDS_WITH(T1.filename, T2.submitted_path)

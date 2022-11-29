@@ -1,11 +1,13 @@
-CREATE MATERIALIZED VIEW
-    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_analysis_aspera_geoloc` AS
+CREATE OR REPLACE VIEW
+  `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_analysis_aspera` AS
 SELECT
     *
 FROM
-    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.view_aspera_geoloc` T1,
+    `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.aspera_logs_unique` T1,
     `prj-int-dev-covid19-nf-gls.datahub_metadata_dump.analysis_dump_unique` T2
 WHERE
+  -- T2.analysis_first_created > '2022-07-31'
+  -- AND
     (T2.analysis_type = 'PATHOGEN_ANALYSIS'
         OR T2.analysis_type = 'COVID19_CONSENSUS'
         OR T2.analysis_type = 'COVID19_FILTERED_VCF')
